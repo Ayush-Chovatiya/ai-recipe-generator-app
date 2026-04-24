@@ -1,6 +1,4 @@
 import db from "../config/db.js";
-import db from "../config/db.js";
-
 // Create or Update User Preferences
 async function upsertUserPreferences(userId, preferences) {
   const {
