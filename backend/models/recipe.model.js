@@ -219,7 +219,8 @@ export const updateRecipe = async (id, userId, updates) => {
      instructions = COALESCE($8, instructions),
      dietary_tags = COALESCE($9, dietary_tags),
      user_notes = COALESCE($10, user_notes),
-     image_url = COALESCE($11, image_url)
+     image_url = COALESCE($11, image_url),
+     updated_at = CURRENT_TIMESTAMP
      WHERE id = $12 AND user_id = $13
      RETURNING *`,
     [
@@ -254,9 +255,9 @@ export const deleteRecipe = async (id, userId) => {
 export const getRecipeStats = async (userId) => {
   const result = await db.query(
     `SELECT
-     COUNT(*) as total_recipes,
-     COUNT(DISTINCT cuisine_type) as cuisine_types_count,
-     AVG(cook_time) as avg_cook_time
+     COUNT(*)::INT as total_recipes,
+     COUNT(DISTINCT cuisine_type)::INT as cuisine_types_count,
+     ROUND(AVG(cook_time), 2)::FLOAT as avg_cook_time
      FROM recipes
      WHERE user_id = $1`,
     [userId],
