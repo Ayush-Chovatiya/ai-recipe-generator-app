@@ -13,7 +13,7 @@ import {
 import {
   findItemByUserId,
   getItemsExpiringSoon,
-} from "../models/PantryItem.js";
+} from "../models/pantryItem.model.js";
 
 import {
   generateRecipe as generateRecipeAI,

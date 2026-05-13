@@ -3,8 +3,13 @@ dotenv.config();
 
 import express from "express";
 import cors from "cors";
+
 import authRoutes from "./routes/auth.routes.js";
 import userRoutes from "./routes/user.routes.js";
+import pantryRoutes from "./routes/pantry.routes.js";
+import mealPlanRoutes from "./routes/mealPlan.routes.js";
+import recipeRoutes from "./routes/recipe.routes.js";
+import shoppingListRoutes from "./routes/shoppingList.routes.js";
 
 const app = express();
 
@@ -18,6 +23,10 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/pantry", pantryRoutes);
+app.use("/api/meal-plans", mealPlanRoutes);
+app.use("/api/recipes", recipeRoutes);
+app.use("/api/shopping-list", shoppingListRoutes);
 
 const PORT = process.env.PORT || 5000;
 

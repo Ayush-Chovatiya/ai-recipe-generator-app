@@ -137,6 +137,7 @@ export const updateShoppingItem = async (id, userId, updates) => {
      unit = COALESCE($3, unit),
      category = COALESCE($4, category),
      is_checked = COALESCE($5, is_checked)
+     updated_at = CURRENT_TIMESTAMP
      WHERE id = $6 AND user_id = $7
      RETURNING *`,
     [ingredient_name, quantity, unit, category, is_checked, id, userId],

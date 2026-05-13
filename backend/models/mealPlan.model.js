@@ -9,7 +9,9 @@ export const createMealPlan = async (userId, mealData) => {
     `INSERT INTO meal_plans (user_id, recipe_id, meal_date, meal_type)
      VALUES ($1, $2, $3::date, $4)
      ON CONFLICT (user_id, meal_date, meal_type)
-     DO UPDATE SET recipe_id = $2
+     DO UPDATE SET
+     recipe_id = EXCLUDED.recipe_id,
+     updated_at = CURRENT_TIMESTAMP
      RETURNING *`,
     [userId, recipe_id, date, meal_type],
   );
@@ -34,6 +36,7 @@ export const findMealPlansByDateRange = async (userId, startDate, endDate) => {
         WHEN 'breakfast' THEN 1
         WHEN 'lunch' THEN 2
         WHEN 'dinner' THEN 3
+        ELSE 4
      END`,
     [userId, startDate, endDate],
   );
