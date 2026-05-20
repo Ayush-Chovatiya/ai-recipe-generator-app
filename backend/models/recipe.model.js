@@ -1,5 +1,27 @@
 import db from "../config/db.js";
 
+const toNullableNumber = (value) => {
+  if (value === undefined || value === null || value === "") return null;
+  if (typeof value === "number") return Number.isFinite(value) ? value : null;
+
+  const normalized = String(value).trim();
+  const fractionMatch = normalized.match(/^(\d+(?:\.\d+)?)\s*\/\s*(\d+(?:\.\d+)?)/);
+  if (fractionMatch) {
+    const numerator = Number(fractionMatch[1]);
+    const denominator = Number(fractionMatch[2]);
+    return denominator ? numerator / denominator : null;
+  }
+
+  const numberMatch = normalized.match(/-?\d+(?:\.\d+)?/);
+  return numberMatch ? Number(numberMatch[0]) : null;
+};
+
+const toStringArray = (value) => {
+  if (Array.isArray(value)) return value.map(String).filter(Boolean);
+  if (value === undefined || value === null || value === "") return [];
+  return [String(value)];
+};
+
 // create recipe
 export const createRecipe = async (userId, recipeData) => {
   const client = await db.pool.connect();
@@ -35,12 +57,12 @@ export const createRecipe = async (userId, recipeData) => {
         description,
         cuisine_type,
         difficulty,
-        prep_time,
-        cook_time,
-        servings,
-        JSON.stringify(instructions),
-        dietary_tags,
-        user_notes,
+        toNullableNumber(prep_time),
+        toNullableNumber(cook_time),
+        toNullableNumber(servings) || 1,
+        JSON.stringify(toStringArray(instructions)),
+        toStringArray(dietary_tags),
+        user_notes ? String(user_notes) : null,
         image_url,
       ],
     );
@@ -55,7 +77,11 @@ export const createRecipe = async (userId, recipeData) => {
 
       const params = [recipe.id];
       ingredients.forEach((ing) => {
-        params.push(ing.name, ing.quantity, ing.unit);
+        params.push(
+          ing.name ? String(ing.name) : "Ingredient",
+          toNullableNumber(ing.quantity),
+          ing.unit ? String(ing.unit) : "",
+        );
       });
 
       await client.query(
@@ -72,11 +98,11 @@ export const createRecipe = async (userId, recipeData) => {
          VALUES ($1,$2,$3,$4,$5,$6)`,
         [
           recipe.id,
-          nutrition.calories,
-          nutrition.protein,
-          nutrition.carbs,
-          nutrition.fats,
-          nutrition.fiber,
+          toNullableNumber(nutrition.calories),
+          toNullableNumber(nutrition.protein),
+          toNullableNumber(nutrition.carbs),
+          toNullableNumber(nutrition.fats),
+          toNullableNumber(nutrition.fiber),
         ],
       );
     }
