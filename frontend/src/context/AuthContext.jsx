@@ -79,6 +79,24 @@ export function AuthProvider({ children }) {
           setSession(null)
         }
       },
+      updateAuthUser: (nextUser) => {
+        setSession((currentSession) => {
+          if (!currentSession?.token) {
+            return currentSession
+          }
+
+          const nextSession = {
+            ...currentSession,
+            user: {
+              ...(currentSession.user ?? {}),
+              ...(nextUser ?? {}),
+            },
+          }
+          saveAuthSession(nextSession)
+
+          return nextSession
+        })
+      },
       signOut: () => {
         clearAuthSession()
         setSession(null)

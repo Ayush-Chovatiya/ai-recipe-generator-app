@@ -29,19 +29,19 @@ function Signup() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-emerald-50 to-white p-4">
+    <div className="flex min-h-screen overflow-x-hidden bg-gradient-to-br from-emerald-50 to-white px-4 py-8 sm:items-center sm:justify-center">
       <div className="w-full max-w-md">
         <div className="mb-8 text-center">
           <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-emerald-500">
             <ChefHat className="h-9 w-9 text-white" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900">Create Account</h1>
+          <h1 className="page-heading">Create Account</h1>
           <p className="mt-2 text-gray-600">
             Start your culinary journey with AI Recipe Generator
           </p>
         </div>
 
-        <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm">
+        <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm sm:p-8">
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label
@@ -57,7 +57,7 @@ function Signup() {
                   type="text"
                   value={name}
                   onChange={(event) => setName(event.target.value)}
-                  className="w-full rounded-lg border border-gray-300 py-2.5 pl-11 pr-4 outline-none transition-all focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500"
+                  className="form-control pl-11"
                   placeholder="John Doe"
                   required
                 />
@@ -78,7 +78,7 @@ function Signup() {
                   type="email"
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}
-                  className="w-full rounded-lg border border-gray-300 py-2.5 pl-11 pr-4 outline-none transition-all focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500"
+                  className="form-control pl-11"
                   placeholder="you@example.com"
                   required
                 />
@@ -99,8 +99,8 @@ function Signup() {
                   type="password"
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}
-                  className="w-full rounded-lg border border-gray-300 py-2.5 pl-11 pr-4 outline-none transition-all focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500"
-                  placeholder="••••••••"
+                  className="form-control pl-11"
+                  placeholder="********"
                   required
                   minLength={6}
                 />
@@ -113,7 +113,7 @@ function Signup() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-lg bg-emerald-500 py-2.5 font-medium text-white transition-colors hover:bg-emerald-600 disabled:cursor-not-allowed disabled:opacity-50"
+              className="tap-target w-full rounded-lg bg-emerald-500 px-4 py-2.5 font-medium text-white transition-colors hover:bg-emerald-600 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {loading ? 'Creating account...' : 'Create Account'}
             </button>

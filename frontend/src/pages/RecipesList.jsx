@@ -65,7 +65,7 @@ function RecipesListPage() {
   }
 
   return (
-    <main className="min-h-screen bg-muted/40 px-4 py-10">
+    <main className="min-h-screen overflow-x-hidden bg-muted/40 px-4 py-6 sm:py-10">
       <div className="mx-auto flex w-full max-w-5xl flex-col gap-6">
         <AppHeader />
         <div>
@@ -87,16 +87,16 @@ function RecipesListPage() {
           <CardContent>
             <form
               onSubmit={handleSearch}
-              className="flex flex-wrap gap-3"
+              className="flex flex-col gap-3 sm:flex-row"
             >
               <Input
                 type="text"
                 placeholder="Search recipes"
                 value={search}
                 onChange={(event) => setSearch(event.target.value)}
-                className="min-w-[220px] flex-1"
+                className="min-w-0 flex-1"
               />
-              <Button type="submit" disabled={isLoading}>
+              <Button type="submit" disabled={isLoading} className="w-full sm:w-auto">
                 {isLoading ? 'Searching...' : 'Search'}
               </Button>
             </form>

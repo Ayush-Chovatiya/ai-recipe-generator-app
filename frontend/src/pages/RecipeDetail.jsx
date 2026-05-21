@@ -99,22 +99,22 @@ function RecipeDetail() {
   const userNotes = normalizeList(recipe.user_notes)
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="app-shell">
       <Navbar />
 
-      <div className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:px-8">
+      <div className="app-container-detail">
         <Link
           to="/recipes"
-          className="mb-6 inline-flex items-center gap-2 text-gray-600 transition-colors hover:text-gray-900"
+          className="tap-target mb-6 inline-flex items-center gap-2 text-gray-600 transition-colors hover:text-gray-900"
         >
           <ArrowLeft className="h-5 w-5" />
           Back to Recipes
         </Link>
 
-        <div className="mb-6 rounded-xl border border-gray-200 bg-white p-8">
+        <div className="responsive-card mb-6 sm:p-8">
           <div className="mb-4 flex items-start justify-between gap-4">
             <div className="flex-1">
-              <h1 className="mb-2 text-3xl font-bold text-gray-900">
+              <h1 className="mb-2 text-2xl font-bold text-gray-900 sm:text-3xl">
                 {recipe.name}
               </h1>
               {recipe.description ? (
@@ -123,7 +123,7 @@ function RecipeDetail() {
             </div>
             <button
               onClick={handleDelete}
-              className="rounded-lg p-2 text-gray-400 transition-colors hover:bg-red-50 hover:text-red-600"
+              className="tap-target flex items-center justify-center rounded-lg p-2 text-gray-400 transition-colors hover:bg-red-50 hover:text-red-600"
             >
               <Trash2 className="h-5 w-5" />
             </button>
@@ -158,7 +158,7 @@ function RecipeDetail() {
             ))}
           </div>
 
-          <div className="flex flex-wrap gap-6 text-gray-600">
+          <div className="flex flex-wrap gap-4 text-gray-600 sm:gap-6">
             <div className="flex items-center gap-2">
               <Clock className="h-5 w-5" />
               <span className="font-medium">{totalTime} minutes</span>
@@ -174,8 +174,8 @@ function RecipeDetail() {
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
           <div className="lg:col-span-1">
-            <div className="sticky top-24 rounded-xl border border-gray-200 bg-white p-6">
-              <div className="mb-4 flex items-center justify-between">
+            <div className="responsive-card lg:sticky lg:top-24">
+              <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                 <h2 className="text-xl font-semibold text-gray-900">
                   Ingredients
                 </h2>
@@ -189,23 +189,23 @@ function RecipeDetail() {
                 <div className="flex items-center gap-3">
                   <button
                     onClick={() => setServings(Math.max(1, servings - 1))}
-                    className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100 font-medium transition-colors hover:bg-gray-200"
+                    className="tap-target flex h-11 w-11 items-center justify-center rounded-lg bg-gray-100 font-medium transition-colors hover:bg-gray-200 sm:h-8 sm:w-8 sm:min-h-8 sm:min-w-8"
                   >
-                    −
+                    -
                   </button>
                   <span className="w-12 text-center text-lg font-semibold text-gray-900">
                     {servings}
                   </span>
                   <button
                     onClick={() => setServings(servings + 1)}
-                    className="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100 font-medium transition-colors hover:bg-gray-200"
+                    className="tap-target flex h-11 w-11 items-center justify-center rounded-lg bg-gray-100 font-medium transition-colors hover:bg-gray-200 sm:h-8 sm:w-8 sm:min-h-8 sm:min-w-8"
                   >
                     +
                   </button>
                   {servings !== originalServings ? (
                     <button
                       onClick={() => setServings(originalServings)}
-                      className="text-sm font-medium text-emerald-600 hover:text-emerald-700"
+                      className="tap-target inline-flex items-center text-sm font-medium text-emerald-600 hover:text-emerald-700"
                     >
                       Reset
                     </button>
@@ -230,7 +230,7 @@ function RecipeDetail() {
                         type="checkbox"
                         checked={isChecked}
                         onChange={() => toggleIngredient(index)}
-                        className="mt-1 h-4 w-4 rounded border-gray-300 text-emerald-500 focus:ring-emerald-500"
+                        className="mt-0.5 h-5 w-5 rounded border-gray-300 text-emerald-500 focus:ring-emerald-500"
                       />
                       <span
                         className={`flex-1 ${
@@ -248,13 +248,13 @@ function RecipeDetail() {
           </div>
 
           <div className="space-y-6 lg:col-span-2">
-            <div className="rounded-xl border border-gray-200 bg-white p-6">
+            <div className="responsive-card">
               <h2 className="mb-4 text-xl font-semibold text-gray-900">
                 Instructions
               </h2>
               <ol className="space-y-4">
                 {instructions.map((step, index) => (
-                  <li key={`${index}-${step}`} className="flex gap-4">
+                  <li key={`${index}-${step}`} className="flex gap-3 sm:gap-4">
                     <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-500 text-sm font-semibold text-white">
                       {index + 1}
                     </span>
@@ -265,11 +265,11 @@ function RecipeDetail() {
             </div>
 
             {recipe.nutrition ? (
-              <div className="rounded-xl border border-gray-200 bg-white p-6">
+              <div className="responsive-card">
                 <h2 className="mb-4 text-xl font-semibold text-gray-900">
                   Nutrition (per serving)
                 </h2>
-                <div className="grid grid-cols-2 gap-4 sm:grid-cols-5">
+                <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
                   <NutritionCard
                     label="Calories"
                     value={recipe.nutrition.calories}
@@ -300,9 +300,9 @@ function RecipeDetail() {
             ) : null}
 
             {userNotes.length > 0 ? (
-              <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-6">
+              <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-4 sm:p-6">
                 <h3 className="mb-2 font-semibold text-emerald-900">
-                  📝 Notes
+                  Notes
                 </h3>
                 <p className="text-emerald-800">{userNotes.join(' ')}</p>
               </div>
@@ -315,8 +315,8 @@ function RecipeDetail() {
 }
 
 const NutritionCard = ({ label, value, unit }) => (
-  <div className="rounded-lg bg-gray-50 p-4 text-center">
-    <div className="text-2xl font-bold text-gray-900">
+  <div className="rounded-lg bg-gray-50 p-3 text-center sm:p-4">
+    <div className="text-xl font-bold text-gray-900 sm:text-2xl">
       {value}
       {unit}
     </div>

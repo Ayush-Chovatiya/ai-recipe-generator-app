@@ -71,12 +71,12 @@ function MyRecipes() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="app-shell">
       <Navbar />
 
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <div className="app-container">
         <div className="mb-6">
-          <h1 className="text-3xl font-bold text-gray-900">My Recipes</h1>
+          <h1 className="page-heading">My Recipes</h1>
           <p className="mt-1 text-gray-600">
             Your collection of saved recipes
           </p>
@@ -91,14 +91,14 @@ function MyRecipes() {
                 value={searchQuery}
                 onChange={(event) => setSearchQuery(event.target.value)}
                 placeholder="Search recipes..."
-                className="w-full rounded-lg border border-gray-300 py-2 pl-10 pr-4 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500"
+                className="form-control pl-10"
               />
             </div>
 
             <select
               value={selectedCuisine}
               onChange={(event) => setSelectedCuisine(event.target.value)}
-              className="rounded-lg border border-gray-300 px-4 py-2 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500"
+              className="form-control lg:w-auto"
             >
               {CUISINES.map((cuisine) => (
                 <option key={cuisine} value={cuisine}>
@@ -110,7 +110,7 @@ function MyRecipes() {
             <select
               value={selectedDifficulty}
               onChange={(event) => setSelectedDifficulty(event.target.value)}
-              className="rounded-lg border border-gray-300 px-4 py-2 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500"
+              className="form-control lg:w-auto"
             >
               {DIFFICULTIES.map((diff) => (
                 <option key={diff} value={diff}>
@@ -123,7 +123,7 @@ function MyRecipes() {
 
             <button
               type="submit"
-              className="rounded-lg bg-emerald-500 px-4 py-2 font-medium text-white transition-colors hover:bg-emerald-600"
+              className="tap-target rounded-lg bg-emerald-500 px-4 py-2 font-medium text-white transition-colors hover:bg-emerald-600"
               disabled={loading}
             >
               {loading ? 'Searching...' : 'Search'}
@@ -138,22 +138,22 @@ function MyRecipes() {
         </div>
 
         {loading ? (
-          <div className="rounded-lg border border-gray-200 bg-white p-12 text-center text-gray-500">
+          <div className="rounded-lg border border-gray-200 bg-white p-8 text-center text-gray-500 sm:p-12">
             Loading recipes...
           </div>
         ) : recipes.length > 0 ? (
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="responsive-grid sm:grid-cols-2 lg:grid-cols-3">
             {recipes.map((recipe) => (
               <RecipeCard key={recipe.id} recipe={recipe} onDelete={handleDelete} />
             ))}
           </div>
         ) : (
-          <div className="rounded-lg border border-gray-200 bg-white p-12 text-center">
+          <div className="rounded-lg border border-gray-200 bg-white p-8 text-center sm:p-12">
             <ChefHat className="mx-auto mb-4 h-16 w-16 text-gray-300" />
             <p className="mb-4 text-gray-500">No recipes yet</p>
             <Link
               to="/generate"
-              className="inline-block rounded-lg bg-emerald-500 px-6 py-2.5 font-medium text-white transition-colors hover:bg-emerald-600"
+              className="tap-target inline-flex items-center justify-center rounded-lg bg-emerald-500 px-6 py-2.5 font-medium text-white transition-colors hover:bg-emerald-600"
             >
               Generate Your First Recipe
             </Link>
@@ -173,7 +173,7 @@ function RecipeCard({ recipe, onDelete }) {
         <ChefHat className="h-16 w-16 text-emerald-600" />
       </div>
 
-      <div className="p-5">
+      <div className="p-4 sm:p-5">
         <Link to={`/recipes/${recipe.id}`} className="mb-3 block">
           <h3 className="line-clamp-2 text-lg font-semibold text-gray-900 transition-colors group-hover:text-emerald-600">
             {recipe.name}
@@ -225,13 +225,13 @@ function RecipeCard({ recipe, onDelete }) {
         <div className="flex gap-2 border-t border-gray-100 pt-4">
           <Link
             to={`/recipes/${recipe.id}`}
-            className="flex-1 rounded-lg bg-emerald-500 py-2 text-center text-sm font-medium text-white transition-colors hover:bg-emerald-600"
+            className="tap-target flex-1 rounded-lg bg-emerald-500 px-3 py-2 text-center text-sm font-medium text-white transition-colors hover:bg-emerald-600"
           >
             View Recipe
           </Link>
           <button
             onClick={() => onDelete(recipe.id)}
-            className="rounded-lg border border-gray-300 px-3 py-2 text-gray-700 transition-colors hover:border-red-300 hover:bg-red-50 hover:text-red-600"
+            className="tap-target flex items-center justify-center rounded-lg border border-gray-300 px-3 py-2 text-gray-700 transition-colors hover:border-red-300 hover:bg-red-50 hover:text-red-600"
           >
             <Trash2 className="h-4 w-4" />
           </button>

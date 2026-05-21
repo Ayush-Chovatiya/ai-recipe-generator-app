@@ -61,18 +61,18 @@ function Dashboard() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="app-shell">
       <Navbar />
 
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
+      <div className="app-container">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="page-heading">Dashboard</h1>
           <p className="mt-1 text-gray-600">
             Welcome back! Here&apos;s your cooking overview
           </p>
         </div>
 
-        <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-3">
+        <div className="responsive-grid mb-6 sm:mb-8 sm:grid-cols-2 lg:grid-cols-3">
           <StatCard
             icon={<ChefHat className="h-6 w-6" />}
             label="Total Recipes"
@@ -93,10 +93,10 @@ function Dashboard() {
           />
         </div>
 
-        <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2">
+        <div className="responsive-grid mb-6 sm:mb-8 md:grid-cols-2">
           <Link
             to="/generate"
-            className="group rounded-xl bg-gradient-to-r from-emerald-50 to-emerald-100 p-6 text-emerald-500 shadow-sm transition-all hover:shadow-md"
+            className="group rounded-xl bg-gradient-to-r from-emerald-50 to-emerald-100 p-4 text-emerald-500 shadow-sm transition-all hover:shadow-md sm:p-6"
           >
             <div className="flex items-center gap-4">
               <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-white transition-transform group-hover:scale-110">
@@ -113,7 +113,7 @@ function Dashboard() {
 
           <Link
             to="/pantry"
-            className="group rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-all hover:shadow-md"
+            className="group rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition-all hover:shadow-md sm:p-6"
           >
             <div className="flex items-center gap-4">
               <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-50 transition-transform group-hover:scale-110">
@@ -131,9 +131,9 @@ function Dashboard() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-          <div className="rounded-xl border border-gray-200 bg-white p-6">
-            <div className="mb-4 flex items-center justify-between">
+        <div className="responsive-grid lg:grid-cols-2">
+          <div className="responsive-card">
+            <div className="mb-4 flex items-center justify-between gap-3">
               <h2 className="text-lg font-semibold text-gray-900">
                 Recent Recipes
               </h2>
@@ -175,8 +175,8 @@ function Dashboard() {
             )}
           </div>
 
-          <div className="rounded-xl border border-gray-200 bg-white p-6">
-            <div className="mb-4 flex items-center justify-between">
+          <div className="responsive-card">
+            <div className="mb-4 flex items-center justify-between gap-3">
               <h2 className="text-lg font-semibold text-gray-900">
                 Upcoming Meals
               </h2>
@@ -229,7 +229,7 @@ function StatCard({ icon, label, value, color }) {
   }
 
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-6">
+    <div className="responsive-card">
       <div className="flex items-center gap-4">
         <div
           className={`flex h-12 w-12 items-center justify-center rounded-lg ${colorClasses[color]}`}

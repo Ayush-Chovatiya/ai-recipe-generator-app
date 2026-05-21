@@ -35,7 +35,7 @@ const CUISINES = [
 ]
 
 function Settings() {
-  const { logout } = useAuth()
+  const { logout, updateAuthUser } = useAuth()
   const navigate = useNavigate()
   const [saving, setSaving] = useState(false)
 
@@ -95,6 +95,7 @@ function Settings() {
           name: result.user.name,
           email: result.user.email,
         })
+        updateAuthUser(result.user)
       }
       toast.success('Profile updated successfully')
     } catch (error) {
@@ -190,19 +191,19 @@ function Settings() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="app-shell">
       <Navbar />
 
-      <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Settings</h1>
+      <div className="app-container-narrow">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="page-heading">Settings</h1>
           <p className="mt-1 text-gray-600">
             Manage your account and preferences
           </p>
         </div>
 
         <div className="space-y-6">
-          <div className="rounded-xl border border-gray-200 bg-white p-6">
+          <div className="responsive-card">
             <div className="mb-6 flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100">
                 <User className="h-5 w-5 text-emerald-600" />
@@ -223,7 +224,7 @@ function Settings() {
                   onChange={(event) =>
                     setProfile({ ...profile, name: event.target.value })
                   }
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500"
+                  className="form-control"
                   required
                 />
               </div>
@@ -236,7 +237,7 @@ function Settings() {
                   type="email"
                   value={profile.email}
                   disabled
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500"
+                  className="form-control"
                   required
                 />
               </div>
@@ -244,7 +245,7 @@ function Settings() {
               <button
                 type="submit"
                 disabled={saving}
-                className="flex items-center gap-2 rounded-lg bg-emerald-500 px-4 py-2 font-medium text-white transition-colors hover:bg-emerald-600 disabled:opacity-50"
+                className="tap-target flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-500 px-4 py-2 font-medium text-white transition-colors hover:bg-emerald-600 disabled:opacity-50 sm:w-auto"
               >
                 <Save className="h-4 w-4" />
                 {saving ? 'Saving...' : 'Save Profile'}
@@ -252,7 +253,7 @@ function Settings() {
             </form>
           </div>
 
-          <div className="rounded-xl border border-gray-200 bg-white p-6">
+          <div className="responsive-card">
             <div className="mb-6 flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100">
                 <Lock className="h-5 w-5 text-blue-600" />
@@ -276,7 +277,7 @@ function Settings() {
                       currentPassword: event.target.value,
                     })
                   }
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500"
+                  className="form-control"
                   required
                 />
               </div>
@@ -294,7 +295,7 @@ function Settings() {
                       newPassword: event.target.value,
                     })
                   }
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500"
+                  className="form-control"
                   required
                   minLength={6}
                 />
@@ -313,7 +314,7 @@ function Settings() {
                       confirmPassword: event.target.value,
                     })
                   }
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500"
+                  className="form-control"
                   required
                   minLength={6}
                 />
@@ -322,7 +323,7 @@ function Settings() {
               <button
                 type="submit"
                 disabled={saving}
-                className="flex items-center gap-2 rounded-lg bg-blue-500 px-4 py-2 font-medium text-white transition-colors hover:bg-blue-600 disabled:opacity-50"
+                className="tap-target flex w-full items-center justify-center gap-2 rounded-lg bg-blue-500 px-4 py-2 font-medium text-white transition-colors hover:bg-blue-600 disabled:opacity-50 sm:w-auto"
               >
                 <Lock className="h-4 w-4" />
                 {saving ? 'Changing...' : 'Change Password'}
@@ -330,7 +331,7 @@ function Settings() {
             </form>
           </div>
 
-          <div className="rounded-xl border border-gray-200 bg-white p-6">
+          <div className="responsive-card">
             <h2 className="mb-6 text-xl font-semibold text-gray-900">
               Dietary Preferences
             </h2>
@@ -346,7 +347,7 @@ function Settings() {
                       key={option}
                       type="button"
                       onClick={() => toggleDietary(option)}
-                      className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
+                      className={`tap-target rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
                         preferences.dietary_restrictions.includes(option)
                           ? 'bg-emerald-500 text-white'
                           : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -375,7 +376,7 @@ function Settings() {
                     })
                   }
                   placeholder="e.g., peanuts, shellfish, soy"
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500"
+                  className="form-control"
                 />
               </div>
 
@@ -389,7 +390,7 @@ function Settings() {
                       key={cuisine}
                       type="button"
                       onClick={() => toggleCuisine(cuisine)}
-                      className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
+                      className={`tap-target rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
                         preferences.preferred_cuisines.includes(cuisine)
                           ? 'bg-emerald-500 text-white'
                           : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -428,13 +429,13 @@ function Settings() {
                 <label className="mb-2 block text-sm font-medium text-gray-700">
                   Measurement Unit
                 </label>
-                <div className="flex gap-3">
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                   <button
                     type="button"
                     onClick={() =>
                       setPreferences({ ...preferences, measurement_unit: 'metric' })
                     }
-                    className={`flex-1 rounded-lg px-4 py-2 font-medium transition-colors ${
+                    className={`tap-target rounded-lg px-4 py-2 font-medium transition-colors ${
                       preferences.measurement_unit === 'metric'
                         ? 'bg-emerald-500 text-white'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -450,7 +451,7 @@ function Settings() {
                         measurement_unit: 'imperial',
                       })
                     }
-                    className={`flex-1 rounded-lg px-4 py-2 font-medium transition-colors ${
+                    className={`tap-target rounded-lg px-4 py-2 font-medium transition-colors ${
                       preferences.measurement_unit === 'imperial'
                         ? 'bg-emerald-500 text-white'
                         : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -464,7 +465,7 @@ function Settings() {
               <button
                 type="submit"
                 disabled={saving}
-                className="flex items-center gap-2 rounded-lg bg-emerald-500 px-4 py-2 font-medium text-white transition-colors hover:bg-emerald-600 disabled:opacity-50"
+                className="tap-target flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-500 px-4 py-2 font-medium text-white transition-colors hover:bg-emerald-600 disabled:opacity-50 sm:w-auto"
               >
                 <Save className="h-4 w-4" />
                 {saving ? 'Saving...' : 'Save Preferences'}
@@ -472,7 +473,7 @@ function Settings() {
             </form>
           </div>
 
-          <div className="rounded-xl border border-red-200 bg-white p-6">
+          <div className="rounded-xl border border-red-200 bg-white p-4 sm:p-6">
             <div className="mb-4 flex items-center gap-3">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-red-100">
                 <Trash2 className="h-5 w-5 text-red-600" />
@@ -487,7 +488,7 @@ function Settings() {
 
             <button
               onClick={handleDeleteAccount}
-              className="flex items-center gap-2 rounded-lg bg-red-500 px-4 py-2 font-medium text-white transition-colors hover:bg-red-600"
+              className="tap-target flex w-full items-center justify-center gap-2 rounded-lg bg-red-500 px-4 py-2 font-medium text-white transition-colors hover:bg-red-600 sm:w-auto"
             >
               <Trash2 className="h-4 w-4" />
               Delete Account

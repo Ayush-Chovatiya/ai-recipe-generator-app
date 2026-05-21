@@ -87,32 +87,32 @@ function MealPlanner() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="app-shell">
       <Navbar />
 
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="mb-6 flex items-center justify-between">
+      <div className="app-container">
+        <div className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Meal Planner</h1>
+            <h1 className="page-heading">Meal Planner</h1>
             <p className="mt-1 text-gray-600">Plan your weekly meals</p>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3 lg:flex lg:items-center">
             <button
               onClick={() => setWeekStart(addDays(weekStart, -7))}
-              className="rounded-lg border border-gray-300 px-4 py-2 font-medium text-gray-700 transition-colors hover:bg-gray-50"
+              className="tap-target rounded-lg border border-gray-300 px-4 py-2 font-medium text-gray-700 transition-colors hover:bg-gray-50"
             >
               Previous Week
             </button>
             <button
               onClick={() => setWeekStart(startOfWeek(new Date()))}
-              className="rounded-lg bg-emerald-500 px-4 py-2 font-medium text-white transition-colors hover:bg-emerald-600"
+              className="tap-target rounded-lg bg-emerald-500 px-4 py-2 font-medium text-white transition-colors hover:bg-emerald-600"
             >
               This Week
             </button>
             <button
               onClick={() => setWeekStart(addDays(weekStart, 7))}
-              className="rounded-lg border border-gray-300 px-4 py-2 font-medium text-gray-700 transition-colors hover:bg-gray-50"
+              className="tap-target rounded-lg border border-gray-300 px-4 py-2 font-medium text-gray-700 transition-colors hover:bg-gray-50"
             >
               Next Week
             </button>
@@ -127,7 +127,8 @@ function MealPlanner() {
           </p>
         </div>
 
-        <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
+        <div className="table-scroll rounded-xl border border-gray-200 bg-white">
+          <div className="min-w-[56rem] lg:min-w-0">
           <div className="grid grid-cols-8 border-b border-gray-200 bg-gray-50">
             <div className="border-r border-gray-200 p-4 font-semibold text-gray-700">
               Meal
@@ -135,7 +136,7 @@ function MealPlanner() {
             {DAYS_OF_WEEK.map((day, index) => (
               <div
                 key={day}
-                className="border-r border-gray-200 p-4 text-center last:border-r-0"
+                className="border-r border-gray-200 p-3 text-center last:border-r-0 sm:p-4"
               >
                 <div className="font-semibold text-gray-900">{day}</div>
                 <div className="text-sm text-gray-500">
@@ -161,7 +162,7 @@ function MealPlanner() {
                 return (
                   <div
                     key={`${mealType}-${dayIndex}`}
-                    className="min-h-[100px] border-r border-gray-200 p-3 transition-colors hover:bg-gray-50 last:border-r-0"
+                    className="min-h-[100px] border-r border-gray-200 p-2 transition-colors hover:bg-gray-50 last:border-r-0 sm:p-3"
                   >
                     {meal ? (
                       <div className="group relative">
@@ -171,7 +172,7 @@ function MealPlanner() {
                           </p>
                           <button
                             onClick={() => handleRemoveMeal(meal.id)}
-                            className="absolute right-1 top-1 rounded bg-white p-1 text-gray-400 opacity-0 transition-opacity hover:bg-red-50 hover:text-red-600 group-hover:opacity-100"
+                            className="tap-target absolute right-1 top-1 flex items-center justify-center rounded bg-white p-1 text-gray-400 opacity-100 transition-opacity hover:bg-red-50 hover:text-red-600 sm:min-h-8 sm:min-w-8 lg:opacity-0 lg:group-hover:opacity-100"
                           >
                             <X className="h-4 w-4" />
                           </button>
@@ -180,7 +181,7 @@ function MealPlanner() {
                     ) : (
                       <button
                         onClick={() => handleAddMeal(date, mealType)}
-                        className="flex h-full w-full items-center justify-center rounded-lg text-gray-400 transition-colors hover:bg-emerald-50 hover:text-emerald-600"
+                        className="tap-target flex h-full w-full items-center justify-center rounded-lg text-gray-400 transition-colors hover:bg-emerald-50 hover:text-emerald-600"
                       >
                         <Plus className="h-6 w-6" />
                       </button>
@@ -190,9 +191,10 @@ function MealPlanner() {
               })}
             </div>
           ))}
+          </div>
         </div>
 
-        <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3">
+        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           <div className="rounded-lg border border-gray-200 bg-white p-4">
             <p className="text-sm text-gray-600">Meals Planned</p>
             <p className="text-2xl font-bold text-gray-900">
@@ -282,8 +284,8 @@ function AddMealModal({ date, mealType, recipes, onClose, onSuccess }) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
-      <div className="w-full max-w-md rounded-xl bg-white p-6">
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/50 p-4 sm:items-center">
+      <div className="custom-scrollbar max-h-[calc(100vh-2rem)] w-full max-w-md overflow-y-auto rounded-xl bg-white p-4 sm:p-6">
         <div className="mb-6 flex items-center justify-between">
           <div>
             <h2 className="text-xl font-bold text-gray-900">Add Meal</h2>
@@ -291,7 +293,7 @@ function AddMealModal({ date, mealType, recipes, onClose, onSuccess }) {
               {format(new Date(date), 'EEEE, MMM d')} - {mealType}
             </p>
           </div>
-          <button onClick={onClose} className="text-gray-400 hover:text-gray-600">
+          <button onClick={onClose} className="tap-target flex items-center justify-center rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-600">
             <X className="h-6 w-6" />
           </button>
         </div>
@@ -303,7 +305,7 @@ function AddMealModal({ date, mealType, recipes, onClose, onSuccess }) {
               value={searchQuery}
               onChange={(event) => setSearchQuery(event.target.value)}
               placeholder="Search recipes..."
-              className="w-full rounded-lg border border-gray-300 px-3 py-2 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500"
+              className="form-control"
             />
           </div>
 
@@ -324,10 +326,10 @@ function AddMealModal({ date, mealType, recipes, onClose, onSuccess }) {
                     value={recipe.id}
                     checked={selectedRecipe === recipe.id}
                     onChange={(event) => setSelectedRecipe(event.target.value)}
-                    className="h-4 w-4 text-emerald-500 focus:ring-emerald-500"
+                    className="h-5 w-5 text-emerald-500 focus:ring-emerald-500"
                   />
-                  <div className="flex-1">
-                    <p className="font-medium text-gray-900">{recipe.name}</p>
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate font-medium text-gray-900">{recipe.name}</p>
                     {recipe.cuisine_type ? (
                       <p className="text-xs text-gray-500">
                         {recipe.cuisine_type}
@@ -344,18 +346,18 @@ function AddMealModal({ date, mealType, recipes, onClose, onSuccess }) {
             )}
           </div>
 
-          <div className="flex gap-3 pt-4">
+          <div className="flex flex-col-reverse gap-3 pt-4 sm:flex-row">
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 rounded-lg border border-gray-300 px-4 py-2.5 font-medium text-gray-700 transition-colors hover:bg-gray-50"
+              className="tap-target flex-1 rounded-lg border border-gray-300 px-4 py-2.5 font-medium text-gray-700 transition-colors hover:bg-gray-50"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading || !selectedRecipe}
-              className="flex-1 rounded-lg bg-emerald-500 px-4 py-2.5 font-medium text-white transition-colors hover:bg-emerald-600 disabled:opacity-50"
+              className="tap-target flex-1 rounded-lg bg-emerald-500 px-4 py-2.5 font-medium text-white transition-colors hover:bg-emerald-600 disabled:opacity-50"
             >
               {loading ? 'Adding...' : 'Add Meal'}
             </button>

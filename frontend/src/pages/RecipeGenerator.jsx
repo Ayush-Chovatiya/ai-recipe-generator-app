@@ -157,15 +157,15 @@ function RecipeGenerator() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="app-shell">
       <Navbar />
 
-      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
-        <div className="mb-8 text-center">
+      <div className="app-container">
+        <div className="mb-6 text-center sm:mb-8">
           <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-600">
             <Sparkles className="h-8 w-8 text-white" />
           </div>
-          <h1 className="text-3xl font-bold text-gray-900">
+          <h1 className="page-heading">
             AI Recipe Generator
           </h1>
           <p className="mt-2 text-gray-600">
@@ -173,9 +173,9 @@ function RecipeGenerator() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:gap-8">
           <div className="space-y-6">
-            <div className="rounded-xl border border-gray-200 bg-white p-6">
+            <div className="responsive-card">
               <h2 className="mb-4 text-lg font-semibold text-gray-900">
                 Ingredients
               </h2>
@@ -186,7 +186,7 @@ function RecipeGenerator() {
                   id="use-pantry"
                   checked={usePantry}
                   onChange={(event) => setUsePantry(event.target.checked)}
-                  className="h-4 w-4 rounded border-gray-300 text-emerald-500 focus:ring-emerald-500"
+                  className="h-5 w-5 rounded border-gray-300 text-emerald-500 focus:ring-emerald-500"
                 />
                 <label
                   htmlFor="use-pantry"
@@ -196,18 +196,18 @@ function RecipeGenerator() {
                 </label>
               </div>
 
-              <div className="mb-4 flex gap-2">
+              <div className="mb-4 flex flex-col gap-2 sm:flex-row">
                 <input
                   type="text"
                   value={inputValue}
                   onChange={(event) => setInputValue(event.target.value)}
                   onKeyPress={(event) => event.key === 'Enter' && addIngredient()}
                   placeholder="Add ingredient (e.g., tomatoes)"
-                  className="flex-1 rounded-lg border border-gray-300 px-3 py-2 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500"
+                  className="form-control flex-1"
                 />
                 <button
                   onClick={addIngredient}
-                  className="rounded-lg bg-emerald-500 px-4 py-2 text-white transition-colors hover:bg-emerald-600"
+                  className="tap-target flex items-center justify-center rounded-lg bg-emerald-500 px-4 py-2 text-white transition-colors hover:bg-emerald-600"
                 >
                   <Plus className="h-5 w-5" />
                 </button>
@@ -218,7 +218,7 @@ function RecipeGenerator() {
                   {ingredients.map((ingredient, index) => (
                     <span
                       key={`${ingredient}-${index}`}
-                      className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-3 py-1.5 text-sm text-gray-700"
+                      className="inline-flex min-h-9 items-center gap-1 rounded-full bg-gray-100 px-3 py-1.5 text-sm text-gray-700"
                     >
                       {ingredient}
                       <button
@@ -233,7 +233,7 @@ function RecipeGenerator() {
               )}
             </div>
 
-            <div className="space-y-5 rounded-xl border border-gray-200 bg-white p-6">
+            <div className="responsive-card space-y-5">
               <h2 className="text-lg font-semibold text-gray-900">Preferences</h2>
 
               <div>
@@ -243,7 +243,7 @@ function RecipeGenerator() {
                 <select
                   value={cuisineType}
                   onChange={(event) => setCuisineType(event.target.value)}
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2 outline-none focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500"
+                  className="form-control"
                 >
                   {CUISINES.map((cuisine) => (
                     <option key={cuisine} value={cuisine}>
@@ -262,7 +262,7 @@ function RecipeGenerator() {
                     <button
                       key={option}
                       onClick={() => toggleDietary(option)}
-                      className={`rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
+                      className={`tap-target rounded-lg px-3 py-1.5 text-sm font-medium transition-colors ${
                         dietaryRestrictions.includes(option)
                           ? 'bg-emerald-500 text-white'
                           : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -296,12 +296,12 @@ function RecipeGenerator() {
                 <label className="mb-2 block text-sm font-medium text-gray-700">
                   Cooking Time
                 </label>
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
                   {COOKING_TIMES.map((time) => (
                     <button
                       key={time.value}
                       onClick={() => setCookingTime(time.value)}
-                      className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                      className={`tap-target rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
                         cookingTime === time.value
                           ? 'bg-emerald-500 text-white'
                           : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -317,7 +317,7 @@ function RecipeGenerator() {
             <button
               onClick={handleGenerate}
               disabled={generating}
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 py-4 font-semibold text-white transition-all hover:from-emerald-600 hover:to-emerald-700 disabled:cursor-not-allowed disabled:opacity-50"
+              className="tap-target flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 px-4 py-4 font-semibold text-white transition-all hover:from-emerald-600 hover:to-emerald-700 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {generating ? (
                 <>
@@ -335,9 +335,9 @@ function RecipeGenerator() {
 
           <div>
             {generatedRecipe ? (
-              <div className="space-y-6 rounded-xl border border-gray-200 bg-white p-6">
+              <div className="responsive-card space-y-6">
                 <div>
-                  <h2 className="mb-2 text-2xl font-bold text-gray-900">
+                  <h2 className="mb-2 text-xl font-bold text-gray-900 sm:text-2xl">
                     {generatedRecipe.name}
                   </h2>
                   <p className="text-gray-600">{generatedRecipe.description}</p>
@@ -365,7 +365,7 @@ function RecipeGenerator() {
                     ))}
                   </div>
 
-                  <div className="mt-4 flex items-center gap-6 text-sm text-gray-600">
+                  <div className="mt-4 flex flex-wrap items-center gap-4 text-sm text-gray-600 sm:gap-6">
                     <div className="flex items-center gap-2">
                       <ChefHat className="h-4 w-4" />
                       <span>
@@ -419,7 +419,7 @@ function RecipeGenerator() {
                     <h3 className="mb-3 font-semibold text-gray-900">
                       Nutrition (per serving)
                     </h3>
-                    <div className="grid grid-cols-2 gap-4 sm:grid-cols-5">
+                    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
                       <NutritionBadge
                         label="Calories"
                         value={generatedRecipe.nutrition.calories}
@@ -452,11 +452,11 @@ function RecipeGenerator() {
                 {generatedRecipe.cookingTips?.length ? (
                   <div className="rounded-lg bg-emerald-50 p-4">
                     <h3 className="mb-2 font-semibold text-emerald-900">
-                      💡 Cooking Tips
+                      Cooking Tips
                     </h3>
                     <ul className="space-y-1 text-sm text-emerald-800">
                       {generatedRecipe.cookingTips.map((tip, index) => (
-                        <li key={`${index}-${tip}`}>• {tip}</li>
+                        <li key={`${index}-${tip}`}>{tip}</li>
                       ))}
                     </ul>
                   </div>
@@ -466,14 +466,14 @@ function RecipeGenerator() {
                   <button
                     onClick={handleSaveRecipe}
                     disabled={saving}
-                    className="flex-1 rounded-lg bg-emerald-500 py-2.5 font-medium text-white transition-colors hover:bg-emerald-600 disabled:opacity-50"
+                    className="tap-target flex-1 rounded-lg bg-emerald-500 px-4 py-2.5 font-medium text-white transition-colors hover:bg-emerald-600 disabled:opacity-50"
                   >
                     {saving ? 'Saving...' : 'Save Recipe'}
                   </button>
                 </div>
               </div>
             ) : (
-              <div className="flex h-full items-center justify-center rounded-xl border border-dashed border-gray-300 bg-white p-10 text-center text-gray-500">
+              <div className="flex min-h-56 items-center justify-center rounded-xl border border-dashed border-gray-300 bg-white p-6 text-center text-gray-500 sm:p-10 lg:h-full">
                 Generate a recipe to see the results here.
               </div>
             )}
@@ -485,8 +485,8 @@ function RecipeGenerator() {
 }
 
 const NutritionBadge = ({ label, value, unit }) => (
-  <div className="rounded-lg bg-gray-50 p-4 text-center">
-    <div className="text-2xl font-bold text-gray-900">
+  <div className="rounded-lg bg-gray-50 p-3 text-center sm:p-4">
+    <div className="text-xl font-bold text-gray-900 sm:text-2xl">
       {value}
       {unit}
     </div>
