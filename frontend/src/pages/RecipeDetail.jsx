@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { ArrowLeft, Clock, Trash2, Users } from 'lucide-react'
 import toast from 'react-hot-toast'
 
-import Navbar from '@/components/Navbar'
+import FormattedRecipeText from '@/components/FormattedRecipeText'
 import { deleteRecipe, getRecipe } from '@/lib/api'
 
 const normalizeList = (value) => {
@@ -99,10 +99,7 @@ function RecipeDetail() {
   const userNotes = normalizeList(recipe.user_notes)
 
   return (
-    <div className="app-shell">
-      <Navbar />
-
-      <div className="app-container-detail">
+    <div className="app-container-detail">
         <Link
           to="/recipes"
           className="tap-target mb-6 inline-flex items-center gap-2 text-gray-600 transition-colors hover:text-gray-900"
@@ -258,7 +255,9 @@ function RecipeDetail() {
                     <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-emerald-500 text-sm font-semibold text-white">
                       {index + 1}
                     </span>
-                    <p className="flex-1 pt-1 text-gray-700">{step}</p>
+                    <p className="flex-1 pt-1 text-gray-700">
+                      <FormattedRecipeText text={step} />
+                    </p>
                   </li>
                 ))}
               </ol>
@@ -309,7 +308,6 @@ function RecipeDetail() {
             ) : null}
           </div>
         </div>
-      </div>
     </div>
   )
 }

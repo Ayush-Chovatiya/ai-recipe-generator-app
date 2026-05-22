@@ -3,7 +3,6 @@ import { Lock, Save, Trash2, User } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import toast from 'react-hot-toast'
 
-import Navbar from '@/components/Navbar'
 import { useAuth } from '@/context/AuthContext'
 import {
   changePassword,
@@ -191,10 +190,7 @@ function Settings() {
   }
 
   return (
-    <div className="app-shell">
-      <Navbar />
-
-      <div className="app-container-narrow">
+    <div className="app-container-narrow">
         <div className="mb-6 sm:mb-8">
           <h1 className="page-heading">Settings</h1>
           <p className="mt-1 text-gray-600">
@@ -495,7 +491,6 @@ function Settings() {
             </button>
           </div>
         </div>
-      </div>
     </div>
   )
 }

@@ -3,7 +3,6 @@ import { ChefHat, Plus, X } from 'lucide-react'
 import { addDays, format, startOfWeek } from 'date-fns'
 import toast from 'react-hot-toast'
 
-import Navbar from '@/components/Navbar'
 import { addMealPlan, deleteMealPlan, getRecipes, getWeeklyMealPlan } from '@/lib/api'
 
 const MEAL_TYPES = ['breakfast', 'lunch', 'dinner']
@@ -87,9 +86,7 @@ function MealPlanner() {
   }
 
   return (
-    <div className="app-shell">
-      <Navbar />
-
+    <>
       <div className="app-container">
         <div className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div>
@@ -240,7 +237,7 @@ function MealPlanner() {
           }}
         />
       ) : null}
-    </div>
+    </>
   )
 }
 

@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import { Calendar, ChefHat, Clock, UtensilsCrossed } from 'lucide-react'
 import toast from 'react-hot-toast'
 
-import Navbar from '@/components/Navbar'
 import {
   getMealPlanStats,
   getPantryStats,
@@ -61,10 +60,7 @@ function Dashboard() {
   }, [])
 
   return (
-    <div className="app-shell">
-      <Navbar />
-
-      <div className="app-container">
+    <div className="app-container">
         <div className="mb-6 sm:mb-8">
           <h1 className="page-heading">Dashboard</h1>
           <p className="mt-1 text-gray-600">
@@ -216,7 +212,6 @@ function Dashboard() {
             )}
           </div>
         </div>
-      </div>
     </div>
   )
 }

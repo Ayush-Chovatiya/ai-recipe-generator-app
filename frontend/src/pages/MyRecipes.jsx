@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import { ChefHat, Clock, Search, Trash2 } from 'lucide-react'
 import toast from 'react-hot-toast'
 
-import Navbar from '@/components/Navbar'
 import { deleteRecipe, getRecipes } from '@/lib/api'
 
 const CUISINES = [
@@ -18,13 +17,11 @@ const CUISINES = [
   'Mediterranean',
   'American',
 ]
-const DIFFICULTIES = ['All', 'easy', 'medium', 'hard']
 
 function MyRecipes() {
   const [recipes, setRecipes] = useState([])
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedCuisine, setSelectedCuisine] = useState('All')
-  const [selectedDifficulty, setSelectedDifficulty] = useState('All')
   const [loading, setLoading] = useState(false)
 
   const loadRecipes = async (overrideFilters = {}) => {
@@ -33,7 +30,6 @@ function MyRecipes() {
       const filters = {
         search: searchQuery,
         cuisine_type: selectedCuisine !== 'All' ? selectedCuisine : undefined,
-        difficulty: selectedDifficulty !== 'All' ? selectedDifficulty : undefined,
         ...overrideFilters,
       }
       const result = await getRecipes(filters)
@@ -49,7 +45,7 @@ function MyRecipes() {
 
   useEffect(() => {
     loadRecipes()
-  }, [selectedCuisine, selectedDifficulty])
+  }, [selectedCuisine])
 
   const handleSearch = (event) => {
     event.preventDefault()
@@ -71,10 +67,7 @@ function MyRecipes() {
   }
 
   return (
-    <div className="app-shell">
-      <Navbar />
-
-      <div className="app-container">
+    <div className="app-container">
         <div className="mb-6">
           <h1 className="page-heading">My Recipes</h1>
           <p className="mt-1 text-gray-600">
@@ -103,20 +96,6 @@ function MyRecipes() {
               {CUISINES.map((cuisine) => (
                 <option key={cuisine} value={cuisine}>
                   {cuisine === 'All' ? 'All Cuisines' : cuisine}
-                </option>
-              ))}
-            </select>
-
-            <select
-              value={selectedDifficulty}
-              onChange={(event) => setSelectedDifficulty(event.target.value)}
-              className="form-control lg:w-auto"
-            >
-              {DIFFICULTIES.map((diff) => (
-                <option key={diff} value={diff}>
-                  {diff === 'All'
-                    ? 'All Difficulties'
-                    : diff.charAt(0).toUpperCase() + diff.slice(1)}
                 </option>
               ))}
             </select>
@@ -159,7 +138,6 @@ function MyRecipes() {
             </Link>
           </div>
         )}
-      </div>
     </div>
   )
 }

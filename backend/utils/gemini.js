@@ -12,11 +12,28 @@ const ai = new GoogleGenAI({
 });
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const retryableErrors = [429, 500, 503];
+const defaultModels = ["gemini-2.5-flash", "gemini-2.5-flash-lite"];
+const geminiModels = (process.env.GEMINI_MODELS || "")
+  .split(",")
+  .map((model) => model.trim())
+  .filter(Boolean);
+const models = geminiModels.length > 0 ? geminiModels : defaultModels;
 
-const callGemini = async (prompt, retries = 3, backoff = 2000) => {
+export class GeminiUnavailableError extends Error {
+  constructor(
+    message = "Recipe AI is temporarily busy. Please try again in a minute.",
+  ) {
+    super(message);
+    this.name = "GeminiUnavailableError";
+    this.statusCode = 503;
+  }
+}
+
+const callGeminiModel = async (prompt, model, retries = 3, backoff = 2000) => {
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
+      model,
       contents: prompt,
     });
 
@@ -30,20 +47,39 @@ const callGemini = async (prompt, retries = 3, backoff = 2000) => {
   } catch (error) {
     const status = error.status || 500;
 
-    console.error("Gemini API error:", status, error.message);
-
-    const retryableErrors = [429, 500, 503];
+    console.error(`Gemini API error (${model}):`, status, error.message);
 
     if (retries > 0 && retryableErrors.includes(status)) {
-      console.log(`Retrying Gemini... (${retries} left)`);
+      console.log(`Retrying Gemini ${model}... (${retries} left)`);
 
       await delay(backoff);
 
-      return callGemini(prompt, retries - 1, backoff * 2);
+      return callGeminiModel(prompt, model, retries - 1, backoff * 2);
     }
 
     throw error;
   }
+};
+
+const callGemini = async (prompt) => {
+  let lastError;
+
+  for (const model of models) {
+    try {
+      return await callGeminiModel(prompt, model);
+    } catch (error) {
+      lastError = error;
+      const status = error.status || 500;
+
+      if (!retryableErrors.includes(status)) {
+        throw error;
+      }
+
+      console.warn(`Gemini model ${model} unavailable. Trying fallback...`);
+    }
+  }
+
+  throw new GeminiUnavailableError(lastError?.message);
 };
 
 /**
@@ -116,6 +152,7 @@ Servings: ${servings}
 Cooking time: ${timeGuide[cookingTime] || "any"}
 
 Return ONLY valid JSON.
+Do not use Markdown formatting, bold markers, asterisks, or bullet symbols inside string values.
 
 {
   "name": "Recipe name",
@@ -164,6 +201,10 @@ Return ONLY valid JSON.
     return recipe;
   } catch (error) {
     console.error("Recipe generation failed:", error.message);
+
+    if (error instanceof GeminiUnavailableError) {
+      throw error;
+    }
 
     throw new Error("Failed to generate recipe");
   }

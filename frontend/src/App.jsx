@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
 
+import Layout from '@/components/Layout'
 import ProtectedRoute from '@/components/ProtectedRoute'
 import Dashboard from '@/pages/Dashboard'
 import Login from '@/pages/Login'
@@ -19,61 +20,20 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route
-          path="/dashboard"
           element={
             <ProtectedRoute>
-              <Dashboard />
+              <Layout />
             </ProtectedRoute>
           }
-        />
-        <Route
-          path="/pantry"
-          element={
-            <ProtectedRoute>
-              <Pantry />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/generate"
-          element={
-            <ProtectedRoute>
-              <RecipeGenerator />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/recipes"
-          element={
-            <ProtectedRoute>
-              <MyRecipes />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/recipes/:id"
-          element={
-            <ProtectedRoute>
-              <RecipeDetail />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/meal-plan"
-          element={
-            <ProtectedRoute>
-              <MealPlanner />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/settings"
-          element={
-            <ProtectedRoute>
-              <Settings />
-            </ProtectedRoute>
-          }
-        />
+        >
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/pantry" element={<Pantry />} />
+          <Route path="/generate" element={<RecipeGenerator />} />
+          <Route path="/recipes" element={<MyRecipes />} />
+          <Route path="/recipes/:id" element={<RecipeDetail />} />
+          <Route path="/meal-plan" element={<MealPlanner />} />
+          <Route path="/settings" element={<Settings />} />
+        </Route>
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
       </Routes>
 

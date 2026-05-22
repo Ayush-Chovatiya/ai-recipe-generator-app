@@ -18,6 +18,7 @@ import {
 import {
   generateRecipe as generateRecipeAI,
   generatePantrySuggestions as generatePantrySuggestionsAI,
+  GeminiUnavailableError,
 } from "../utils/gemini.js";
 
 /**
@@ -68,6 +69,13 @@ export const generateRecipe = async (req, res, next) => {
       data: { recipe },
     });
   } catch (error) {
+    if (error instanceof GeminiUnavailableError) {
+      return res.status(error.statusCode).json({
+        success: false,
+        message: "Gemini is temporarily overloaded. Please try again in a minute.",
+      });
+    }
+
     next(error);
   }
 };

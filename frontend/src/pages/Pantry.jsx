@@ -3,7 +3,6 @@ import { AlertCircle, Calendar, Plus, Search, X } from 'lucide-react'
 import { format } from 'date-fns'
 import toast from 'react-hot-toast'
 
-import Navbar from '@/components/Navbar'
 import {
   addPantryItem,
   deletePantryItem,
@@ -80,9 +79,7 @@ function Pantry() {
   }
 
   return (
-    <div className="app-shell">
-      <Navbar />
-
+    <>
       <div className="app-container">
         <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
@@ -178,7 +175,7 @@ function Pantry() {
           }}
         />
       ) : null}
-    </div>
+    </>
   )
 }
 

@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Calendar,
   ChefHat,
@@ -9,40 +9,48 @@ import {
   Settings,
   UtensilsCrossed,
   X,
-} from 'lucide-react'
+} from "lucide-react";
 
-import { useAuth } from '@/context/AuthContext'
+import { useAuth } from "@/context/AuthContext";
 
 function Navbar() {
-  const { user, logout } = useAuth()
-  const navigate = useNavigate()
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleLogout = () => {
-    setIsMenuOpen(false)
-    logout()
-    navigate('/login')
-  }
+    setIsMenuOpen(false);
+    logout();
+    navigate("/login");
+  };
 
   const navItems = [
-    { to: '/dashboard', icon: <Home className="h-4 w-4" />, label: 'Dashboard' },
     {
-      to: '/pantry',
-      icon: <UtensilsCrossed className="h-4 w-4" />,
-      label: 'Pantry',
-    },
-    { to: '/generate', icon: <ChefHat className="h-4 w-4" />, label: 'Generate' },
-    {
-      to: '/recipes',
-      icon: <UtensilsCrossed className="h-4 w-4" />,
-      label: 'Recipes',
+      to: "/dashboard",
+      icon: <Home className="h-4 w-4" />,
+      label: "Dashboard",
     },
     {
-      to: '/meal-plan',
+      to: "/pantry",
+      icon: <UtensilsCrossed className="h-4 w-4" />,
+      label: "Pantry",
+    },
+    {
+      to: "/generate",
+      icon: <ChefHat className="h-4 w-4" />,
+      label: "Generate",
+    },
+    {
+      to: "/recipes",
+      icon: <UtensilsCrossed className="h-4 w-4" />,
+      label: "Recipes",
+    },
+    {
+      to: "/meal-plan",
       icon: <Calendar className="h-4 w-4" />,
-      label: 'Meal Plan',
+      label: "Meal Plan",
     },
-  ]
+  ];
 
   return (
     <nav className="sticky top-0 z-50 border-b border-gray-200 bg-white">
@@ -88,9 +96,15 @@ function Navbar() {
           className="tap-target flex items-center justify-center rounded-lg text-gray-700 transition-colors hover:bg-gray-100 md:hidden"
           aria-controls="mobile-navigation"
           aria-expanded={isMenuOpen}
-          aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          aria-label={
+            isMenuOpen ? "Close navigation menu" : "Open navigation menu"
+          }
         >
-          {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          {isMenuOpen ? (
+            <X className="h-6 w-6" />
+          ) : (
+            <Menu className="h-6 w-6" />
+          )}
         </button>
       </div>
 
@@ -129,10 +143,10 @@ function Navbar() {
         </div>
       ) : null}
     </nav>
-  )
+  );
 }
 
-function NavLink({ to, icon, label, className = '', onClick }) {
+function NavLink({ to, icon, label, className = "", onClick }) {
   return (
     <Link
       to={to}
@@ -142,7 +156,7 @@ function NavLink({ to, icon, label, className = '', onClick }) {
       {icon}
       <span>{label}</span>
     </Link>
-  )
+  );
 }
 
-export default Navbar
+export default Navbar;
