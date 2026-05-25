@@ -24,6 +24,15 @@ CREATE TABLE IF NOT EXISTS user_preferences (
     UNIQUE(user_id)
 );
 
+CREATE TABLE IF NOT EXISTS password_reset_tokens (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+    token_hash VARCHAR(255) UNIQUE NOT NULL,
+    expires_at TIMESTAMP NOT NULL,
+    used_at TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 CREATE TABLE IF NOT EXISTS pantry_items (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     user_id UUID REFERENCES users(id) ON DELETE CASCADE,
@@ -109,6 +118,8 @@ CREATE TABLE IF NOT EXISTS meal_plans(
 CREATE INDEX IF NOT EXISTS idx_pantry_user_id ON pantry_items(user_id);
 CREATE INDEX IF NOT EXISTS idx_pantry_category ON pantry_items(category);
 CREATE INDEX IF NOT EXISTS idx_pantry_expiry ON pantry_items(expiry_date);
+CREATE INDEX IF NOT EXISTS idx_password_reset_tokens_hash ON password_reset_tokens(token_hash);
+CREATE INDEX IF NOT EXISTS idx_password_reset_tokens_user_id ON password_reset_tokens(user_id);
 
 CREATE INDEX IF NOT EXISTS idx_recipe_user_id ON recipes(user_id);
 CREATE INDEX IF NOT EXISTS idx_recipe_cuisine ON recipes(cuisine_type);

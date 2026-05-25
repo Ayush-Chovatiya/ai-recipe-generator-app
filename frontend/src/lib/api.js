@@ -86,6 +86,24 @@ export async function signup(payload) {
   return result.data
 }
 
+export async function requestPasswordReset(payload) {
+  const result = await request('/api/auth/reset-password', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  })
+
+  return result.data
+}
+
+export async function resetPassword(payload) {
+  const result = await request('/api/auth/reset-password/confirm', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  })
+
+  return result.data
+}
+
 export async function generateRecipe(payload) {
   const result = await request('/api/recipes/generate', {
     method: 'POST',

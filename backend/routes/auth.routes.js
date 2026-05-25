@@ -7,6 +7,7 @@ import authMiddleware from "../middleware/auth.middleware.js";
 router.post("/signup", authController.register);
 router.post("/login", authController.login);
 router.post("/reset-password", authController.requestPasswordReset);
+router.post("/reset-password/confirm", authController.resetPassword);
 
 // protected routes
 router.get("/me", authMiddleware, authController.getCurrentUser);

@@ -10,6 +10,7 @@ import MyRecipes from '@/pages/MyRecipes'
 import Pantry from '@/pages/Pantry'
 import RecipeDetail from '@/pages/RecipeDetail'
 import RecipeGenerator from '@/pages/RecipeGenerator'
+import ResetPassword from '@/pages/ResetPassword'
 import Settings from '@/pages/Settings'
 import Signup from '@/pages/Signup'
 
@@ -19,6 +20,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
         <Route
           element={
             <ProtectedRoute>

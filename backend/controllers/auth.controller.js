@@ -2,8 +2,15 @@ import {
   createUser,
   findUserByEmail,
   findUserById,
+  updatePassword,
   verifyPassword,
 } from "../models/user.model.js";
+import {
+  createPasswordResetToken,
+  findValidPasswordResetToken,
+  markPasswordResetTokenUsed,
+} from "../models/passwordResetToken.model.js";
+import { sendPasswordResetEmail } from "../utils/email.js";
 
 import { upsertUserPreferences } from "../models/userPreferences.model.js";
 
@@ -141,10 +148,86 @@ export const requestPasswordReset = async (req, res, next) => {
     }
 
     const user = await findUserByEmail(email);
+    let resetUrl = null;
+
+    if (user) {
+      const resetToken = await createPasswordResetToken(user.id);
+      const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
+      resetUrl = `${frontendUrl}/reset-password?token=${resetToken.token}`;
+      let emailResult;
+
+      try {
+        emailResult = await sendPasswordResetEmail({
+          to: user.email,
+          resetUrl,
+        });
+      } catch (error) {
+        console.error("Password reset email failed:", error.message);
+
+        if (process.env.NODE_ENV !== "production") {
+          return res.status(502).json({
+            success: false,
+            message: error.message || "Password reset email failed",
+            data: { resetUrl },
+          });
+        }
+
+        throw error;
+      }
+
+      if (!emailResult.sent) {
+        console.log(`Password reset link for ${user.email}: ${resetUrl}`);
+      }
+    }
+
+    const payload = {
+      success: true,
+      message: "If an account exists with this email, a reset has been sent",
+    };
+
+    if (process.env.NODE_ENV !== "production" && resetUrl) {
+      payload.data = { resetUrl };
+    }
+
+    res.json(payload);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const resetPassword = async (req, res, next) => {
+  try {
+    const { token, password } = req.body;
+
+    if (!token || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide reset token and new password",
+      });
+    }
+
+    if (password.length < 6) {
+      return res.status(400).json({
+        success: false,
+        message: "Password must be at least 6 characters",
+      });
+    }
+
+    const resetToken = await findValidPasswordResetToken(token);
+
+    if (!resetToken) {
+      return res.status(400).json({
+        success: false,
+        message: "Reset link is invalid or has expired",
+      });
+    }
+
+    await updatePassword(resetToken.user_id, password);
+    await markPasswordResetTokenUsed(resetToken.id);
 
     res.json({
       success: true,
-      message: "If an account exists with this email, a reset has been sent",
+      message: "Password reset successfully",
     });
   } catch (error) {
     next(error);

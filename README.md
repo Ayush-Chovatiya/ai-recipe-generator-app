@@ -20,7 +20,7 @@ A full-stack AI-powered cooking assistant that helps you manage your pantry, gen
 
 ### Prerequisites
 
-- Node.js (v18+)
+- Node.js (v20+)
 - PostgreSQL
 
 ### Installation
@@ -38,6 +38,7 @@ cd ../frontend && npm install
 ```
 
 Add your Gemini API key, JWT secret, and database URL to a `.env` file in `backend/`, then run:
+For password reset emails, also add `RESEND_API_KEY`, `FRONTEND_URL`, and a verified `RESEND_FROM_EMAIL` sender from your Resend account.
 
 ```bash
 # Start backend
